@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.2.2/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  </head>
+  <body>
+    <div action="">
+      <h1 id="balance">Balance</h1>
+      <input type="text" id="amount" />
+      <button id="deposit">Deposit</button>
+      <button id="withraw">withdraw</button>
+    </div>
+
+    <script>
+      var contract;
+      $(document).ready(function () {
+        var web3 = new Web3();
+
+        address = "0xD2A9b3d26a809b0E2CedF8DB44c455821b747636";
+        abi = [
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "amt",
+                type: "int256",
+              },
+            ],
+            name: "deposit",
+            outputs: [],
+            payable: false,
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "amt",
+                type: "int256",
+              },
+            ],
+            name: "withdraw",
+            outputs: [],
+            payable: false,
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [],
+            payable: false,
+            stateMutability: "nonpayable",
+            type: "constructor",
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: "getBalance",
+            outputs: [
+              {
+                name: "",
+                type: "int256",
+              },
+            ],
+            payable: false,
+            stateMutability: "view",
+            type: "function",
+          },
+        ];
+
+        contract = new web3.eth.Contract(abi, address);
+        contract.methods
+          .getBalance()
+          .call()
+          .then(function (bal) {
+            console.log(bal);
+            $("#balance").html(bal);
+          });
+      });
+    </script>
+  </body>
+</html>
